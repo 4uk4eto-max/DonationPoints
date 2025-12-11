@@ -1,0 +1,30 @@
+name: Build Minecraft Plugin
+
+on:
+  push:
+    branches:
+      - master  # Ако основният клон е main, сложи main
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up Java 8
+      uses: actions/setup-java@v3
+      with:
+        java-version: '8'
+        distribution: 'temurin'
+
+    - name: Build with Maven
+      run: mvn clean package
+
+    - name: Upload JAR
+      uses: actions/upload-artifact@v3
+      with:
+        name: DonationPoints-JAR
+        path: target/*.jar
